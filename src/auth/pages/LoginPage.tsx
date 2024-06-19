@@ -1,6 +1,6 @@
 import { useMemo } from 'react';
 import { Link as RouterLink } from 'react-router-dom';
-import { checkingAuthentication, startGoogleSignIn } from '../../store/auth';
+import { startGoogleSignIn, startLoginWithEmailPassword } from '../../store/auth';
 import { useAppDispatch, useAppSelector } from '../../store';
 
 import { Button, Grid, Link, TextField, Typography } from '@mui/material';
@@ -26,7 +26,7 @@ export const LoginPage = () => {
   const onSubmit = ((event: any) => {
     event.preventDefault();
 
-    dispatch(checkingAuthentication('email', 'password'));
+    dispatch(startLoginWithEmailPassword({email, password}));
   })
 
   const onGoogleSignIn = () => {
