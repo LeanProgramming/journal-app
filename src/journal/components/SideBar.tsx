@@ -1,7 +1,11 @@
 import { TurnedInNot } from "@mui/icons-material"
 import { Box, Divider, Drawer, Grid, List, ListItem, ListItemButton, ListItemIcon, ListItemText, Toolbar, Typography } from "@mui/material"
+import { useAppSelector } from "../../store"
 
 export const SideBar = ({drawerWidth}: any) => {
+
+  const { displayName } = useAppSelector((state) => state.auth);
+
   return (
     <Box
         component="nav"
@@ -18,7 +22,14 @@ export const SideBar = ({drawerWidth}: any) => {
         >
           
             <Toolbar>
-              <Typography variant="h6" noWrap component="div">Lea Muñoz</Typography>
+              <Typography
+                variant="h6"
+                noWrap
+                component="div"
+                className="animate__animated animate__fadeIn animate__faster"
+              >
+                {displayName}
+              </Typography>
             </Toolbar>
             <Divider />
 
