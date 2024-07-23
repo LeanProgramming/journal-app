@@ -3,15 +3,29 @@ import { IconButton } from '@mui/material';
 import { JournalLayout } from '../layout/JournalLayout';
 import { NoteView, NothingSelectedView } from '../views';
 import { AddOutlined } from '@mui/icons-material';
+import { useAppDispatch, useAppSelector } from '../../store';
+import { startNewNote } from '../../store/journal';
 
 
 export const JournalPage = () => {
+  
+  const dispatch = useAppDispatch();
+  const { isSaving, active } = useAppSelector(state => state.journal);
+
+  const onClickNewNote = () => {
+    dispatch(startNewNote());
+    
+  }
+
   return (
     <JournalLayout>
 
-      <NothingSelectedView/>
+      {
+        active 
+        ? <NoteView />
+        : <NothingSelectedView/>
+      }
 
-      {/* <NoteView /> */}
 
       <IconButton
         size="large"
@@ -23,6 +37,8 @@ export const JournalPage = () => {
           right: 50,
           bottom: 50
         }}
+        disabled={isSaving}
+        onClick={onClickNewNote}
       >
           <AddOutlined sx={{ fontSize: 30 }} />
       </IconButton>

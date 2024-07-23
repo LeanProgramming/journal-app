@@ -5,6 +5,7 @@ import { useAppSelector } from "../../store"
 export const SideBar = ({drawerWidth}: any) => {
 
   const { displayName } = useAppSelector((state) => state.auth);
+  const { notes } = useAppSelector((state) => state.journal);
 
   return (
     <Box
@@ -35,14 +36,14 @@ export const SideBar = ({drawerWidth}: any) => {
 
             <List>
               {
-                ['Enero', 'Febrero', 'Marzo', 'Abril'].map(text => (
-                  <ListItem key={ text } disablePadding>
+                notes.map(note => (
+                  <ListItem key={ note.id } disablePadding>
                       <ListItemButton>
                         <ListItemIcon>
                             <TurnedInNot />
                         </ListItemIcon>
                         <Grid container>
-                          <ListItemText primary={text} />
+                          <ListItemText primary={ note.title } />
                           <ListItemText secondary="Lorem ipsum dolor sit amet consectetur, adipisicing elit." /> 
                         </Grid>
                       </ListItemButton>
