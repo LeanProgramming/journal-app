@@ -7,15 +7,15 @@ import { getFirestore } from 'firebase/firestore/lite';
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
-  // apiKey: "",
-  // authDomain: "",
-  // projectId: "",
-  // storageBucket: "",
-  // messagingSenderId: "",
-  // appId: ""
+	// apiKey: "",
+	// authDomain: "",
+	// projectId: "",
+	// storageBucket: "",
+	// messagingSenderId: "",
+	// appId: ""
 };
 
 // Initialize Firebase
-export const FireBaseApp = initializeApp( firebaseConfig );
-export const FirebaseAuth = getAuth( FireBaseApp );
-export const FirebaseDB = getFirestore( FireBaseApp );
+export const FireBaseApp = initializeApp(firebaseConfig);
+export const FirebaseAuth = getAuth(FireBaseApp);
+export const FirebaseDB = getFirestore(FireBaseApp);

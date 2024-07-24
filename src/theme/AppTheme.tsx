@@ -3,12 +3,11 @@ import { CssBaseline } from '@mui/material';
 import { purpleTheme } from './purpleTheme';
 
 export const AppTheme = ({ children }: any) => {
-  return (
-    <ThemeProvider theme={ purpleTheme } >
+	return (
+		<ThemeProvider theme={purpleTheme}>
+			<CssBaseline />
 
-        <CssBaseline />
-        
-        { children }
-    </ThemeProvider>
-  )
-}
+			{children}
+		</ThemeProvider>
+	);
+};

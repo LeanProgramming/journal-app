@@ -1,52 +1,56 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from 'react';
 
-export const useForm = ( initialForm: any = {}, formValidations: any = {}) => {
-  const [formState, setFormState] = useState(initialForm);
-  const [formValidation, setFormValidation] = useState(formValidations)
+export const useForm = (initialForm: any = {}, formValidations: any = {}) => {
+	const [formState, setFormState] = useState(initialForm);
+	const [formValidation, setFormValidation] = useState(formValidations);
 
-    useEffect(() => {
-      createValidators();
-    }, [formState]);
-    
-    const isFormValid = useMemo( () => {
+	useEffect(() => {
+		createValidators();
+	}, [formState]);
 
-        for (const formValue of Object.keys(formValidation)) {
-            if(formValidation[formValue] !== null) return false;
-        }
-        return true;
-    }, [ formValidation]);
+	useEffect(() => {
+		setFormState(initialForm);
+	}, [initialForm]);
 
-  const onInputChange = ({ target }: any) => {
-    const { name, value } = target;
-    setFormState({
-      ...formState,
-      [name]: value,
-    });
-  };
+	const isFormValid = useMemo(() => {
+		for (const formValue of Object.keys(formValidation)) {
+			if (formValidation[formValue] !== null) return false;
+		}
+		return true;
+	}, [formValidation]);
 
-  const onResetForm = () => {
-    setFormState(initialForm);
-  };
+	const onInputChange = ({ target }: any) => {
+		const { name, value } = target;
+		setFormState({
+			...formState,
+			[name]: value,
+		});
+	};
 
-  const createValidators = () => {
+	const onResetForm = () => {
+		setFormState(initialForm);
+	};
 
-        const formCheckedValues: any = {};
+	const createValidators = () => {
+		const formCheckedValues: any = {};
 
-        for (const formField of Object.keys(formValidations)) {
-            const [fn, errorMessage] = formValidations[formField];
-            
-            formCheckedValues[`${formField}Valid`] = fn( formState[formField]) ? null : errorMessage;
-            
-            setFormValidation( formCheckedValues );
-        }
-  };
+		for (const formField of Object.keys(formValidations)) {
+			const [fn, errorMessage] = formValidations[formField];
 
-  return {
-    ...formState,
-    formState,
-    onInputChange,
-    onResetForm,
-    ...formValidation,
-    isFormValid,
-  };
+			formCheckedValues[`${formField}Valid`] = fn(formState[formField])
+				? null
+				: errorMessage;
+
+			setFormValidation(formCheckedValues);
+		}
+	};
+
+	return {
+		...formState,
+		formState,
+		onInputChange,
+		onResetForm,
+		...formValidation,
+		isFormValid,
+	};
 };
