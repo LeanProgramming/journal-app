@@ -11,12 +11,8 @@ module.exports = {
 	],
 	ignorePatterns: ['dist', '.eslintrc.cjs'],
 	parser: '@typescript-eslint/parser',
-	plugins: ['react-refresh'],
+	plugins: ['react'],
 	rules: {
-		'react-refresh/only-export-components': [
-			'warn',
-			{ allowConstantExport: true },
-		],
 		'prettier/prettier': 'error',
 		'react/react-in-jsx-scope': 'off',
 		'react/prop-types': 'off',

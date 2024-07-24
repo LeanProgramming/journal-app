@@ -1,10 +1,19 @@
-import { SaveOutlined } from '@mui/icons-material';
-import { Button, Grid, TextField, Typography } from '@mui/material';
+import {
+	DeleteOutline,
+	SaveOutlined,
+	UploadOutlined,
+} from '@mui/icons-material';
+import { Button, Grid, IconButton, TextField, Typography } from '@mui/material';
 import { ImageGallery } from '../components';
 import { useForm } from '../../hooks';
 import { useAppDispatch, useAppSelector } from '../../store';
-import { useEffect, useMemo } from 'react';
-import { setActiveNote, startSaveNote } from '../../store/journal';
+import { ChangeEvent, useEffect, useMemo, useRef } from 'react';
+import {
+	setActiveNote,
+	startDeletingNote,
+	startSaveNote,
+	startUploadingFiles,
+} from '../../store/journal';
 import Swal from 'sweetalert2';
 import 'sweetalert2/dist/sweetalert2.css';
 
@@ -28,6 +37,8 @@ export const NoteView = () => {
 		});
 	}, [date]);
 
+	const fileInputRef = useRef<HTMLInputElement>(null);
+
 	useEffect(() => {
 		dispatch(setActiveNote(formState));
 	}, [formState]);
@@ -40,6 +51,16 @@ export const NoteView = () => {
 
 	const onSaveNote = () => {
 		dispatch(startSaveNote());
+	};
+
+	const onFileInputChange = ({ target }: ChangeEvent<HTMLInputElement>) => {
+		if (target.files?.length === 0) return;
+
+		dispatch(startUploadingFiles(target.files as FileList));
+	};
+
+	const onDelete = () => {
+		dispatch(startDeletingNote());
 	};
 
 	return (
@@ -57,7 +78,21 @@ export const NoteView = () => {
 			</Grid>
 
 			<Grid item>
-				<input type='file' multiple />
+				<input
+					type='file'
+					multiple
+					ref={fileInputRef}
+					onChange={onFileInputChange}
+					style={{ display: 'none' }}
+				/>
+
+				<IconButton
+					color='primary'
+					disabled={isSaving}
+					onClick={() => fileInputRef.current!.click()}
+				>
+					<UploadOutlined />
+				</IconButton>
 
 				<Button
 					disabled={isSaving}
@@ -96,8 +131,18 @@ export const NoteView = () => {
 				/>
 			</Grid>
 
-			{/* Image gallery */}
-			<ImageGallery />
+			<Grid container justifyContent='end'>
+				<Button
+					onClick={onDelete}
+					sx={{ mt: 2 }}
+					color='error'
+					disabled={isSaving}
+				>
+					<DeleteOutline />
+					Borrar
+				</Button>
+			</Grid>
+			{note && note.imageURLs && <ImageGallery images={note.imageURLs} />}
 		</Grid>
 	);
 };
